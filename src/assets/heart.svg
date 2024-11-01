@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="69.873337"
+   height="70.321381"
+   viewBox="300 400 69.873337 70.321381"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="personplain.svg"
+   inkscape:export-filename="person.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   inkscape:dataloss="true"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     labelstyle="default"
+     inkscape:zoom="3.9216142"
+     inkscape:cx="183.34287"
+     inkscape:cy="227.45736"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="5749"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="all"
+     inkscape:groupmode="layer"
+     id="all"
+     transform="translate(-216.85219,-313.57907)">
+    <path
+       id="heart"
+       style="fill:#fc0069;fill-opacity:1;stroke-width:2.92191;stroke-linejoin:round;paint-order:fill markers stroke"
+       d="m 534.3638,713.59912 c -43.04744,8.85302 5.42891,53.81261 16.56559,70.30133 11.37238,-15.1646 58.0764,-54.25091 22.89941,-69.50449 -8.86231,-3.08871 -19.26105,2.87454 -22.22051,12.94454 -2.48397,-8.10207 -9.69967,-13.85195 -17.24449,-13.74138 z"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="heart.svg"
+       inkscape:export-xdpi="96.010605"
+       inkscape:export-ydpi="96.010605" />
+  </g>
+</svg>

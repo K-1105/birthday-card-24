@@ -1,0 +1,226 @@
+/* Globals */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background: #00a2ff;
+  font-family: Garamond, serif;
+  font-weight: 700;
+  overflow:visible
+}
+
+h1.intro {
+  color: #fc0069;
+  margin-top: 2vw;
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+  color: white;
+  text-transform: uppercase;
+  font-size: 10vw;
+  text-shadow: 0.25vw 0.25vw rgba(0,0,0,0.25);
+}
+
+p {
+  margin: 0;
+  text-align: center;
+  color: white;
+  text-transform: uppercase;
+  font-size: 5vw;
+  text-shadow: 0.25vw 0.25vw rgba(0,0,0,0.25);
+}
+
+button {
+  display: inline-flexbox;
+  padding: 3vw;
+  margin: 3vw;
+  font-size: 6vw;
+  font-weight: 700;
+  font-family: Garamond, serif;
+  text-transform: uppercase;
+  color: black;
+  background: transparent;
+  border-radius: 255vw 15vw 225vw 15vw/15vw 235vw 5vw 275vw;
+  border: 0.3vw solid white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+@media (min-width: 5vw) {
+  button {
+    padding: 1vw;
+    margin: 0.5vw;
+  }
+}
+
+button:focus,
+button:hover {
+  border-color: #fc0069;
+  outline: 0;
+  color: white;
+}
+
+/* App wrapper */
+.app {
+  display: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  background: radial-gradient(circle at 50% 66%, #fff 0.5vw
+  , #00a2ff 40%)
+
+}
+
+/* SVG wrapper */
+.wrapper {
+  position: relative;
+  justify-content: baseline;
+  height: 100vw;
+  width: 100vw;
+}
+
+/* // Controls wrapper */
+.controls {
+  display: inline-flexbox;
+  left: 0;
+  right: 0;
+  padding: 0 10vw;
+  text-align: center
+}
+
+
+/* // Sliders (visible when crazy) */
+.sliders {
+  display: absolute;
+  margin-top: -20vw;
+  max-width: 90vw;
+  justify-content: center;
+}
+
+
+input[type=range] {
+  position: relative;
+  left: 5vw;
+  background: #ebf6ff;
+  width: 40vw;
+  border-radius: 2vw;
+  margin: 2vw;
+  -webkit-appearance: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+input[type=range]::-webkit-slider-thumb {
+  height: 4vw;
+  width: 4vw;
+  border-radius: 50%;
+  background: #fc0069;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+
+/* Main character (body and eyes) */
+.character {
+  position: relative;
+}
+
+
+/* // Various arm variants */
+.arm {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  & path {
+    fill: none;
+    stroke: rgb(230, 181, 181);
+    stroke-width: 8%;
+    stroke-linecap: round;
+    stroke-miterlimit: 10;
+  }
+}
+
+.arm-happy-right {
+  transform-origin: 240px 190px;
+  transform: rotate(30deg);
+  /* // transform: translateY(42%) translateX(155%) rotate(140deg); */
+}
+
+.arm-happy-left {
+  transform-origin: 145px 140px;
+  transform: rotate(140deg);
+  /* // transform: translateY(45%) translateX(145%) rotate(143deg); */
+}
+
+.arm-eating-right {
+  transform-origin: 220px 160px;
+  animation: scratch-chin 4s ease 0s infinite normal;
+}
+
+
+/* // Animations */
+@-webkit-keyframes scratch-chin {
+  0% {
+    transform: rotate(-65deg);
+  }
+
+  30% {
+    transform: rotate(25deg) translateX(-10px);
+  }
+
+  45% {
+    transform: rotate(20deg) translateX(-10px);
+  }
+
+  50% {
+    transform: rotate(20deg) translateX(-10px);
+  }
+
+  55% {
+    transform: rotate(20deg) translateX(-10px);
+  }
+
+  70% {
+    transform: rotate(25deg) translateX(-10px);
+  }
+
+  90% {
+    transform: rotate(-60deg);
+  }
+
+  100% {
+    transform: rotate(-65deg);
+  }
+}
+
+
+.particle {
+  position: absolute;
+  background-image: url('./assets/heart.svg');
+  background-size: cover;
+  opacity: 0.6;
+}
+
+/* Animation for the particles */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+
+.particle {
+  animation: float 3s ease-in-out infinite;
+}
