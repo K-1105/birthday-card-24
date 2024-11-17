@@ -76,9 +76,12 @@ const App: React.FC = () => {
       ) : (
         <div>
           {!play && (
-            <button onClick={handleGoClick} className="go-button">
-              Go
-            </button>
+            <>
+              <p className="intro">Better with sound.</p>
+              <button onClick={handleGoClick} className="go-button">
+                Go
+              </button>
+            </>
           )}
           {play && (
             <div className="scene">

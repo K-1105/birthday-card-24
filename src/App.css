@@ -12,15 +12,10 @@ html {
   overflow: hidden;
   box-sizing: border-box;
   background-color: rgb(247, 182, 2);
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
-h1 {
-  margin: 0;
-  text-align: center;
-  color: white;
-  text-transform: uppercase;
-  text-shadow: 0.25vw 0.25vw rgba(0,0,0,0.25);
-}
 
 p {
   margin: 0;
@@ -30,12 +25,12 @@ p {
 
 /* App wrapper */
 .app {
-  width: 878px;
-  height: 340px;
+  aspect-ratio: 882 / 344; /* Keeps the intended aspect ratio */
+  width: 100vw;
+  max-width: 882px;
   margin: auto;
   overflow: hidden;
   position: relative;
-  border: 2px solid black;
   display: flex;
 }
 
@@ -62,12 +57,22 @@ p {
   display: flex;
 }
 
+.intro {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
 .go-button {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 10px 20px;
+  padding: 0.8rem 1.3rem;
+  font-family: Garamond, serif;
   font-size: 1.2rem;
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
