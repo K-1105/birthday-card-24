@@ -43,7 +43,7 @@ export function generateBirds(
       startTop: reverseFly ? 230 + Math.random() * 60 : startTop,
       flyDuration: reverseFly ? `${3 + Math.random() * 0.5}s` : `${1.5 + Math.random() * 0.5}s`,
       flyDelay: reverseFly ? `${20 + Math.random()}s` : flyDelay,
-      endLeft: reverseFly ? window.innerWidth + 20 : -100,
+      endLeft: reverseFly ? 950 : -100,
       endTop: reverseFly ? 230 + Math.random() * 60 : startTop,
       src: magpieImages[magpieImage],
       alt: `Magpie ${birdId}`,
