@@ -1,4 +1,4 @@
 
- # 🎁🎈🥂🥳🎂HAPPY BIRTHDAY!🎂🥳🥂🎈🎁
+ # ☀️🐦‍⬛HAPPY BIRTHDAY!🐦‍⬛☀️
 
-# [✉️ open this](https://k-1105.github.io/birthday-card/) 
+# [✉️ open this](https://k-1105.github.io/birthday-card-24/) 

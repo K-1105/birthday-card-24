@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
+import magpie4 from "./assets/magpies/magpie4.svg";
+import message from "./assets/message.png";
 import whiteNoise from "./assets/outdoor_white_noise.mp3";
 import song from "./assets/magpie_happy_birthday.wav";
-import sunset from "./assets/sunset-forground.svg";
+import sunset from "./assets/sunset-foreground.svg";
 import { BirdAnimation } from "./components/BirdAnimation";
 import DelayedAudioPlayer from "./components/DelayedAudioPlayer";
+import { generateBirds } from "./utils/generateBirds";
+import { generateBirdFlockData } from "./utils/gernerateBirdFlockData";
 
 const App: React.FC = () => {
   const [isPortrait, setIsPortrait] = useState(
@@ -23,45 +27,7 @@ const App: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const magpieImages = [
-    "src/assets/magpies/magpie1.svg",
-    "src/assets/magpies/magpie2.svg",
-    "src/assets/magpies/magpie3.svg",
-    "src/assets/magpies/magpie4.svg",
-  ];
-
-  /**
-   * Generates an array of bird objects using predefined bird data.
-   *
-   * @param {Record<number, {startTop: number, flyDelay: string}>} birdDataMap - Object mapping each bird ID to its configuration.
-   * @param {number} startLeft - Initial left position for the first bird.
-   * @param {number} leftIncrement - Increment of left position between birds.
-   * @returns {Array} An array of bird objects with random src.
-   */
-  function generateBirds(
-    birdDataMap: Record<
-      number,
-      { startTop: number; flyDelay: string; magpieImage: number; flip: boolean }
-    >,
-    startLeft: number,
-    leftIncrement: number
-  ) {
-    return Object.entries(birdDataMap).map(([birdId, birdData], index) => {
-      return {
-        id: parseInt(birdId, 10),
-        startLeft: startLeft + index * leftIncrement,
-        startTop: birdData.startTop,
-        flyDuration: `${1.5 + Math.random() * 1}s`,
-        flyDelay: birdData.flyDelay,
-        endTop: 10 + Math.floor(Math.random() * 300),
-        src: magpieImages[birdData.magpieImage], // Random src
-        alt: `Magpie ${birdId}`,
-        flip: birdData.flip,
-      };
-    });
-  }
-
-  // Define bird data for 22 birds
+  // Define bird data for 25 line birds
   const birdData = {
     // hap
     1: { startTop: 63, flyDelay: "2s", magpieImage: 1, flip: false },
@@ -86,9 +52,9 @@ const App: React.FC = () => {
     18: { startTop: 70, flyDelay: "13.8s", magpieImage: 2, flip: false },
     19: { startTop: 87, flyDelay: "14.5s", magpieImage: 3, flip: true },
     // hap
-    20: { startTop: 7, flyDelay: "15.1s", magpieImage: 0, flip: false },
+    20: { startTop: 7, flyDelay: "15.2s", magpieImage: 0, flip: false },
     21: { startTop: 7, flyDelay: "15.7s", magpieImage: 1, flip: true },
-    22: { startTop: 24, flyDelay: "16.3s", magpieImage: 2, flip: false },
+    22: { startTop: 24, flyDelay: "16.2s", magpieImage: 2, flip: false },
     23: { startTop: 33, flyDelay: "16.9s", magpieImage: 0, flip: true },
     24: { startTop: 17, flyDelay: "17.5s", magpieImage: 3, flip: false },
     25: { startTop: 30, flyDelay: "18s", magpieImage: 2, flip: true },
@@ -96,6 +62,10 @@ const App: React.FC = () => {
 
   // Generate birds
   const birds = generateBirds(birdData, 170, 21);
+
+  // Generate birdFlockData for IDs 26 to 50 with reverseFly: true
+  const birdFlockData = generateBirdFlockData(26, 50, { reverseFly: true });
+  const flockBirds = generateBirds(birdFlockData, 0, 1);
 
   return (
     <div className="app">
@@ -111,14 +81,43 @@ const App: React.FC = () => {
             </button>
           )}
           {play && (
-            <>
+            <div className="scene">
               <DelayedAudioPlayer delay={0} audioSrc={whiteNoise} />
               <DelayedAudioPlayer delay={1000} audioSrc={song} />
-              <img src={sunset} className="sunset" alt="An SVG of a sunset" />
+              <div className="sun"></div>
+              <div className="sunset"></div>
+              <img
+                src={sunset}
+                className="sunset-foreground"
+                alt="An SVG of a sunset"
+              />
               {birds.map((bird) => (
                 <BirdAnimation key={bird.id} {...bird} />
               ))}
-            </>
+              <div className="flock">
+                {flockBirds.map((bird) => (
+                  <BirdAnimation key={`flock-${bird.id}`} {...bird} />
+                ))}
+              </div>
+              <div className="happy-birthday">
+                <img
+                  src={magpie4}
+                  style={{ transform: "scale(-1, 1)" }}
+                  alt="large magpie face left"
+                />
+                <div className="treasure">
+                  <img
+                    src={message}
+                    alt="'HAPPY BIRTHDAY' spelled out in treasure"
+                  />
+                </div>
+                <img
+                  src={magpie4}
+                  style={{ transform: "scale(1)" }}
+                  alt="large magpie face right"
+                />
+              </div>
+            </div>
           )}
         </div>
       )}
