@@ -1,222 +1,129 @@
-import React, { Component } from "react";
-import { Torso } from "./assets/torsoSVG.tsx";
-import { Face } from "./assets/faceSVG.tsx";
-import { Cake } from "./assets/cakeSVG.tsx";
-import Particles from "./assets/particles.tsx";
-import Confetti from 'react-confetti'
+import { useEffect, useState } from "react";
+import whiteNoise from "./assets/outdoor_white_noise.mp3";
+import song from "./assets/magpie_happy_birthday.wav";
+import sunset from "./assets/sunset-forground.svg";
+import { BirdAnimation } from "./components/BirdAnimation";
+import DelayedAudioPlayer from "./components/DelayedAudioPlayer";
 
+const App: React.FC = () => {
+  const [isPortrait, setIsPortrait] = useState(
+    window.innerHeight > window.innerWidth
+  );
+  const [play, setPlay] = useState(false);
 
-// Left arm component
-interface ArmProps {
-  animation: string;
-  armPath: string;
-}
+  const handleGoClick = () => {
+    setPlay(true);
+  };
 
-const ArmLeft: React.FC<ArmProps> = ({ animation, armPath }) => (
-  <svg className="arm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
-    {animation === "happy" && <path className="arm-happy-left" d={armPath} />}
-    {animation === "crazy" && <path className="arm-happy-left" d={armPath} />}
-    {animation === "surprising" && (
-      <path d="M80,154c1,0,0,0,-50,-120" />
-    )}
-    {animation === "eating" && (
-      <path d="M80,154s-10.18,82-36.43,103.72" />
-    )}
-    {animation === "still" && (
-      <path d="M80,154s-10.18,82-36.43,103.72" />
-    )}
-    {animation === "start" && (
-      <path d="M80,154s-10.18,82-36.43,103.72" />
-    )}
-  </svg>
-);
-
-// Right arm component
-const ArmRight: React.FC<ArmProps> = ({ animation, armPath }) => (
-  <svg className="arm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
-    {animation === "happy" && <path className="arm-happy-right" d={armPath} />}
-    {animation === "crazy" && <path className="arm-happy-right" d={armPath} />}
-    {animation === "surprising" && (
-      <path d="M217,140c1,0,0,0,50,-120" />
-    )}
-    {animation === "eating" && (
-      <path className="arm-eating-right" d="M217,154s-76,114.16-93-9.84" />
-    )}
-    {animation === "still" && (
-      <path d="M217,154c.57-.48,11.3,86.45-23.43,112.52" />
-    )}
-    {animation === "start" && (
-      <path d="M217,154c.57-.48,11.3,86.45-23.43,112.52" />
-    )}
-  </svg>
-);
-
-interface AppState {
-  animation: string;
-  armPath: string;
-  frequency: number;
-  amplitude: number;
-  xstart: number;
-  ystart: number;
-  length: number;
-  offset: number;
-  fps: number;
-  armPathL: string;
-  armPathR: string;
-}
-
-class App extends Component<{}, AppState> {
-  loopRef: number | null = null;
-
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      animation: "start",
-      armPath: "M 207 171",
-      frequency: 3,
-      amplitude: 0.1,
-      xstart: 207,
-      ystart: 171,
-      length: 110,
-      offset: 0,
-      fps: 60,
-      armPathL: "",
-      armPathR: "",
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth);
     };
-    this.createCurve = this.createCurve.bind(this);
-    this.setAnimation = this.setAnimation.bind(this);
-    this.setConfig = this.setConfig.bind(this);
-    this.updateArms = this.updateArms.bind(this);
-    this.loop = this.loop.bind(this);
-  }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-  createCurve(x: number, offset: number, inverted = false): number {
-    const { frequency, ystart, xstart, amplitude } = this.state;
-    const phase = inverted
-      ? Math.sqrt(x * frequency) - offset
-      : Math.sqrt(x * frequency) + offset;
-    return ystart - Math.sin(phase) * (x - xstart) * amplitude;
-  }
+  const magpieImages = [
+    "src/assets/magpies/magpie1.svg",
+    "src/assets/magpies/magpie2.svg",
+    "src/assets/magpies/magpie3.svg",
+    "src/assets/magpies/magpie4.svg",
+  ];
 
-  updateArms() {
-    const { ystart, xstart, length } = this.state;
-    let x = xstart;
-    let dataL = `M ${xstart} ${ystart}`;
-    let dataR = `M ${xstart} ${ystart}`;
-
-    while (x < xstart + length) {
-      const newYL = this.createCurve(x, this.state.offset);
-      const newYR = this.createCurve(x, this.state.offset, true);
-      dataL = `${dataL} L ${x} ${newYL}`;
-      dataR = `${dataR} L ${x} ${newYR}`;
-      x += 1;
-    }
-    this.setState({
-      armPathL: dataL,
-      armPathR: dataR,
+  /**
+   * Generates an array of bird objects using predefined bird data.
+   *
+   * @param {Record<number, {startTop: number, flyDelay: string}>} birdDataMap - Object mapping each bird ID to its configuration.
+   * @param {number} startLeft - Initial left position for the first bird.
+   * @param {number} leftIncrement - Increment of left position between birds.
+   * @returns {Array} An array of bird objects with random src.
+   */
+  function generateBirds(
+    birdDataMap: Record<
+      number,
+      { startTop: number; flyDelay: string; magpieImage: number; flip: boolean }
+    >,
+    startLeft: number,
+    leftIncrement: number
+  ) {
+    return Object.entries(birdDataMap).map(([birdId, birdData], index) => {
+      return {
+        id: parseInt(birdId, 10),
+        startLeft: startLeft + index * leftIncrement,
+        startTop: birdData.startTop,
+        flyDuration: `${1.5 + Math.random() * 1}s`,
+        flyDelay: birdData.flyDelay,
+        endTop: 10 + Math.floor(Math.random() * 300),
+        src: magpieImages[birdData.magpieImage], // Random src
+        alt: `Magpie ${birdId}`,
+        flip: birdData.flip,
+      };
     });
   }
 
-  loop() {
-    const { offset, animation, fps } = this.state;
-    if (animation !== "happy" && animation !== "crazy") {
-      clearTimeout(this.loopRef as number);
-      return;
-    }
-    this.setState({
-      offset: offset + 0.3,
-    });
-    this.updateArms();
-    this.loopRef = window.setTimeout(() => {
-      requestAnimationFrame(this.loop);
-    }, 1000 / fps);
-  }
+  // Define bird data for 22 birds
+  const birdData = {
+    // hap
+    1: { startTop: 63, flyDelay: "2s", magpieImage: 1, flip: false },
+    2: { startTop: 68, flyDelay: "2.5s", magpieImage: 2, flip: true },
+    3: { startTop: 50, flyDelay: "3s", magpieImage: 3, flip: false },
+    4: { startTop: 70, flyDelay: "3.5s", magpieImage: 0, flip: true },
+    5: { startTop: 44, flyDelay: "4.5s", magpieImage: 1, flip: false },
+    6: { startTop: 65, flyDelay: "5s", magpieImage: 2, flip: true },
+    // hap
+    7: { startTop: 80, flyDelay: "6.2s", magpieImage: 3, flip: false },
+    8: { startTop: 78, flyDelay: "6.7s", magpieImage: 0, flip: true },
+    9: { startTop: 66, flyDelay: "7.3s", magpieImage: 1, flip: true },
+    10: { startTop: 87, flyDelay: "8s", magpieImage: 2, flip: false },
+    11: { startTop: 55, flyDelay: "8.7s", magpieImage: 3, flip: true },
+    12: { startTop: 65, flyDelay: "9.2s", magpieImage: 0, flip: false },
+    // hap
+    13: { startTop: 87, flyDelay: "10.3s", magpieImage: 1, flip: true },
+    14: { startTop: 87, flyDelay: "11s", magpieImage: 2, flip: false },
+    15: { startTop: 17, flyDelay: "11.7s", magpieImage: 3, flip: true },
+    16: { startTop: 33, flyDelay: "12.4s", magpieImage: 0, flip: false },
+    17: { startTop: 50, flyDelay: "13.1s", magpieImage: 1, flip: true },
+    18: { startTop: 70, flyDelay: "13.8s", magpieImage: 2, flip: false },
+    19: { startTop: 87, flyDelay: "14.5s", magpieImage: 3, flip: true },
+    // hap
+    20: { startTop: 7, flyDelay: "15.1s", magpieImage: 0, flip: false },
+    21: { startTop: 7, flyDelay: "15.7s", magpieImage: 1, flip: true },
+    22: { startTop: 24, flyDelay: "16.3s", magpieImage: 2, flip: false },
+    23: { startTop: 33, flyDelay: "16.9s", magpieImage: 0, flip: true },
+    24: { startTop: 17, flyDelay: "17.5s", magpieImage: 3, flip: false },
+    25: { startTop: 30, flyDelay: "18s", magpieImage: 2, flip: true },
+  };
 
-  setAnimation(newAnimation: string, speed?: number) {
-    const defaultState = {
-      animation: newAnimation,
-      fps: speed || 60,
-      frequency: 3,
-      amplitude: 0.1,
-    };
+  // Generate birds
+  const birds = generateBirds(birdData, 170, 21);
 
-    this.setState(defaultState);
-
-    if (newAnimation === "happy" || newAnimation === "crazy") {
-      clearTimeout(this.loopRef as number);
-      requestAnimationFrame(this.loop);
-    }
-  }
-
-  setConfig(e: React.ChangeEvent<HTMLInputElement>) {
-    const type = e.target.name;
-    this.setState({
-      [type]: parseFloat(e.target.value),
-    } as unknown as Pick<AppState, keyof AppState>);
-  }
-
-  render() {
-    const { frequency, amplitude, animation } = this.state;
-    return (
-      <div className="app">
-        <h1 className="intro">Dear DrEve,</h1>
-        <h1>Have a</h1>
-        <div className="controls">
-          <button onClick={() => this.setAnimation("surprising")}>surprising</button>
-          <button onClick={() => this.setAnimation("eating")}>bountiful</button>
-          <button onClick={() => this.setAnimation("happy")}>happy</button>
-          <button onClick={() => this.setAnimation("crazy", 240)}>crazy</button>
-          <button onClick={() => this.setAnimation("still")}>restful</button>
+  return (
+    <div className="app">
+      {isPortrait ? (
+        <div className="portrait-warning active">
+          Please rotate your device to landscape
         </div>
-        <h1>Birthday</h1>
-
-        {animation === "eating" && (
-              <Particles type="hearts" />
-        )}
-        <svg className="wrapper" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
-          {/* <Character animation={this.state.animation} armPath={""} /> */}
-          <Torso />
-          <Face />
-          <ArmRight animation={this.state.animation} armPath={this.state.armPathR} />
-          <ArmLeft animation={this.state.animation} armPath={this.state.armPathL} />
-          <Cake />
-        </svg>
-        {animation === "crazy" && (
-          <div className="sliders">
-            <input id="input1"
-              type="range"
-              step="0.01"
-              name="frequency"
-              value={frequency}
-              onChange={this.setConfig}
-              min="0"
-              max="2"
-            />
-            <input id="input2"
-              type="range"
-              step="0.01"
-              name="amplitude"
-              value={amplitude}
-              onChange={this.setConfig}
-              min="0.05"
-              max="1.5"
-            />
-            <div>
-              <p>craziness adjusters</p>
-            </div>
-          </div>
-        )}
-        {animation === "surprising" && (
-              <Confetti  confettiSource={{
-                x: document.documentElement.scrollWidth*0.45, 
-                y: document.documentElement.scrollWidth*0.6, 
-                w: document.documentElement.scrollWidth*0.1, 
-                h: document.documentElement.scrollWidth*0.1, 
-              }}/>
-        )}
-      </div>
-    );
-  }
-}
+      ) : (
+        <div>
+          {!play && (
+            <button onClick={handleGoClick} className="go-button">
+              Go
+            </button>
+          )}
+          {play && (
+            <>
+              <DelayedAudioPlayer delay={0} audioSrc={whiteNoise} />
+              <DelayedAudioPlayer delay={1000} audioSrc={song} />
+              <img src={sunset} className="sunset" alt="An SVG of a sunset" />
+              {birds.map((bird) => (
+                <BirdAnimation key={bird.id} {...bird} />
+              ))}
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default App;

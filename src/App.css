@@ -1,17 +1,17 @@
+/* musical note font */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Music&display=swap');
+
+
 /* Globals */
 body,
 html {
   margin: 0;
   padding: 0;
-  background: #00a2ff;
   font-family: Garamond, serif;
   font-weight: 700;
-  overflow:visible
-}
-
-h1.intro {
-  color: #fc0069;
-  margin-top: 2vw;
+  overflow: visible;
+  box-sizing: border-box;
+  background-color: rgb(247, 182, 2);
 }
 
 h1 {
@@ -19,7 +19,6 @@ h1 {
   text-align: center;
   color: white;
   text-transform: uppercase;
-  font-size: 10vw;
   text-shadow: 0.25vw 0.25vw rgba(0,0,0,0.25);
 }
 
@@ -27,200 +26,205 @@ p {
   margin: 0;
   text-align: center;
   color: white;
-  text-transform: uppercase;
-  font-size: 5vw;
-  text-shadow: 0.25vw 0.25vw rgba(0,0,0,0.25);
-}
-
-button {
-  display: inline-flexbox;
-  padding: 3vw;
-  margin: 3vw;
-  font-size: 6vw;
-  font-weight: 700;
-  font-family: Garamond, serif;
-  text-transform: uppercase;
-  color: black;
-  background: transparent;
-  border-radius: 255vw 15vw 225vw 15vw/15vw 235vw 5vw 275vw;
-  border: 0.3vw solid white;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-@media (min-width: 5vw) {
-  button {
-    padding: 1vw;
-    margin: 0.5vw;
-  }
-}
-
-button:focus,
-button:hover {
-  border-color: #fc0069;
-  outline: 0;
-  color: white;
 }
 
 /* App wrapper */
 .app {
-  display: relative;
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  align-items: center;
-  justify-content: space-around;
-  flex-direction: column;
-  background: radial-gradient(circle at 50% 66%, #fff 0.5vw
-  , #00a2ff 40%)
-
-}
-
-/* SVG wrapper */
-.wrapper {
-  position: relative;
-  justify-content: baseline;
-  height: 100vw;
-  width: 100vw;
-}
-
-/* // Controls wrapper */
-.controls {
-  display: inline-flexbox;
-  left: 0;
-  right: 0;
-  padding: 0 10vw;
-  text-align: center
+  display: flex;
 }
 
 
-/* // Sliders (visible when crazy) */
-.sliders {
-  display: absolute;
-  margin-top: -20vw;
-  max-width: 90vw;
-  justify-content: center;
-}
-
-
-input[type=range] {
-  position: relative;
-  left: 5vw;
-  background: #ebf6ff;
-  width: 40vw;
-  border-radius: 2vw;
-  margin: 2vw;
-  -webkit-appearance: none;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-input[type=range]::-webkit-slider-thumb {
-  height: 4vw;
-  width: 4vw;
-  border-radius: 50%;
-  background: #fc0069;
-  cursor: pointer;
-  -webkit-appearance: none;
-}
-
-
-/* Main character (body and eyes) */
-.character {
-  position: relative;
-}
-
-
-/* // Various arm variants */
-.arm {
-  position: absolute;
+/* Portrait orientation warning */
+.portrait-warning {
+  position: fixed;
   top: 0;
   left: 0;
-
-  & path {
-    fill: none;
-    stroke: rgb(230, 181, 181);
-    stroke-width: 8%;
-    stroke-linecap: round;
-    stroke-miterlimit: 10;
-  }
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: rgb(247, 182, 2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 1rem;
+  z-index: 1000;
 }
 
-.arm-happy-right {
-  transform-origin: 240px 190px;
-  transform: rotate(30deg);
-  /* // transform: translateY(42%) translateX(155%) rotate(140deg); */
+.portrait-warning.active {
+  display: flex;
 }
 
-.arm-happy-left {
-  transform-origin: 145px 140px;
-  transform: rotate(140deg);
-  /* // transform: translateY(45%) translateX(145%) rotate(143deg); */
-}
-
-.arm-eating-right {
-  transform-origin: 220px 160px;
-  animation: scratch-chin 4s ease 0s infinite normal;
-}
-
-
-/* // Animations */
-@-webkit-keyframes scratch-chin {
-  0% {
-    transform: rotate(-65deg);
-  }
-
-  30% {
-    transform: rotate(25deg) translateX(-10px);
-  }
-
-  45% {
-    transform: rotate(20deg) translateX(-10px);
-  }
-
-  50% {
-    transform: rotate(20deg) translateX(-10px);
-  }
-
-  55% {
-    transform: rotate(20deg) translateX(-10px);
-  }
-
-  70% {
-    transform: rotate(25deg) translateX(-10px);
-  }
-
-  90% {
-    transform: rotate(-60deg);
-  }
-
-  100% {
-    transform: rotate(-65deg);
-  }
-}
-
-
-.particle {
+.go-button {
   position: absolute;
-  background-image: url('./assets/heart.svg');
-  background-size: cover;
-  opacity: 0.6;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-/* Animation for the particles */
-@keyframes float {
+.go-button:hover {
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.sunset {
+  width: 100%;
+  height: auto;
+  background: 
+  linear-gradient(to bottom, 
+    rgb(140, 60, 125) 0%,
+    rgb(200, 100, 100) 5%,    
+    rgb(255, 120, 60) 15%,
+    rgb(241, 182, 30) 25%, 
+    rgb(255, 230, 85) 40%,   
+    transparent 40% 
+  );
+  display: block;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+/* General bird animation class */
+.bird-animation {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  opacity: 0;
+  animation: flyAway var(--fly-duration) var(--fly-delay) forwards ease-in;
+}
+
+.bird-animation img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.magpie {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  animation: hideMagpie 0.01s var(--fly-delay) forwards;
+}
+
+.magpie img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* Bird frame animations */
+.frame1 {
+  animation: flap1 0.5s infinite ease-in-out;
+}
+
+.frame2 {
+  animation: flap2 0.5s infinite ease-in-out;
+}
+
+.song-symbol {
+  position: absolute;
+  width: 30px;
+  height: 50px;
+  z-index: 2;
+  transform: translateY(-50px);
+  overflow: hidden;
+}
+
+.song-symbol p {
+  font-family: 'Noto Music', sans-serif;
+  color: white;
+  font-size: 2rem;
+  font-weight: bolder;
+  transform: translateY(2.5rem);
+  animation: songWave 1.25s var(--fly-delay) forwards;
+}
+
+
+@keyframes flap1 {
+  0%, 100% {
+    transform: scale(1.3);
+    z-index: 2;
+  }
+  50% {
+    transform: scale(0.3); 
+    z-index: 0; 
+  }
+}
+
+@keyframes flap2 {
+  0%, 100% {
+    transform: scale(0.3);
+    z-index: 0;
+  }
+  50% {
+    transform: scale(1); 
+    z-index: 2; 
+  }
+}
+
+@keyframes hideMagpie {
   0% {
-    transform: translateY(0px);
+    opacity: 1;
+  }
+  95% {
     opacity: 1;
   }
   100% {
-    transform: translateY(-20px);
     opacity: 0;
+    display: none; 
   }
 }
 
-.particle {
-  animation: float 3s ease-in-out infinite;
+@keyframes flyAway {
+  0% {
+    left: var(--start-left, 0px);
+    top: var(--start-top, 0px);
+    opacity: 1;
+  }
+  100% {
+    left: -100px; /* Fly off to the left */
+    top: var(--end-top, 20px); /* Adjust flight path */
+    opacity: 1;
+  }
 }
+
+@keyframes songWave {
+  0% {
+    opacity: 0;
+    transform: translateY(2rem) rotate(0deg) scale(1.5);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(1rem) rotate(-5deg) scale(1.4);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0) rotate(5deg) scale(1.3);
+  }
+  45% {
+    transform: translateY(-1rem) rotate(-5deg) scale(1.2);
+  }
+  60% {
+    transform: translateY(-1.5rem) rotate(5deg) scale(1.1);
+  }
+  75% {
+    transform: translateY(-2rem) rotate(0deg) scale(1); 
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-2.5rem) rotate(0deg) scale(0.5); /* Final state */
+    display: none;
+  }
+}
+
+
+
+
