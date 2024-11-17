@@ -134,8 +134,7 @@ p {
   width: 30px;
   height: 30px;
   opacity: 0;
-  z-index: 3q
-  ;
+  z-index: 3;
   animation: flyAway var(--fly-duration) var(--fly-delay) forwards ease-in;
 }
 
