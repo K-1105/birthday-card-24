@@ -7,7 +7,7 @@ import sunset from "./assets/sunset-foreground.svg";
 import { BirdAnimation } from "./components/BirdAnimation";
 import DelayedAudioPlayer from "./components/DelayedAudioPlayer";
 import { generateBirds } from "./utils/generateBirds";
-import { generateBirdFlockData } from "./utils/gernerateBirdFlockData";
+import { generateBirdFlockData } from "./utils/generateBirdFlockData";
 
 const App: React.FC = () => {
   const [isPortrait, setIsPortrait] = useState(

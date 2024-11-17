@@ -30,6 +30,12 @@ p {
 
 /* App wrapper */
 .app {
+  width: 878px;
+  height: 340px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  border: 2px solid black;
   display: flex;
 }
 
@@ -128,7 +134,8 @@ p {
   width: 30px;
   height: 30px;
   opacity: 0;
-  z-index: 2;
+  z-index: 3q
+  ;
   animation: flyAway var(--fly-duration) var(--fly-delay) forwards ease-in;
 }
 
@@ -197,6 +204,7 @@ p {
   width: 300px;
   transform: skewX(-45deg);
   filter: brightness(80%); 
+  z-index: 2;
 }
 
 @keyframes brighten {

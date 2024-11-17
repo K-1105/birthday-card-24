@@ -41,7 +41,7 @@ export function generateBirds(
       id: parseInt(birdId, 10),
       startLeft: reverseFly ? -30 : startLeft + index * leftIncrement,
       startTop: reverseFly ? 230 + Math.random() * 60 : startTop,
-      flyDuration: `${2 + Math.random() * 0.5}s`,
+      flyDuration: reverseFly ? `${3 + Math.random() * 0.5}s` : `${1.5 + Math.random() * 0.5}s`,
       flyDelay: reverseFly ? `${20 + Math.random()}s` : flyDelay,
       endLeft: reverseFly ? window.innerWidth + 20 : -100,
       endTop: reverseFly ? 230 + Math.random() * 60 : startTop,
